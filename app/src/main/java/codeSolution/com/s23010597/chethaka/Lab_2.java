@@ -1,6 +1,8 @@
 package codeSolution.com.s23010597.chethaka;
 
 import android.app.AlertDialog;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -12,25 +14,24 @@ import androidx.appcompat.app.AppCompatActivity;
 public class Lab_2 extends AppCompatActivity {
 
     dbHelper myDb;
+    EditText userName;
+    EditText password;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lab_2);
         myDb = new dbHelper(this);
+
+        userName = (EditText) findViewById(R.id.userName);
+        password = (EditText) findViewById(R.id.password);
+
     }
 
+    //Validating the password
     public void loginBtn(View view) {
+        myDb.validateData(password.getText().toString());
 
-        EditText userName = (EditText) findViewById(R.id.userName);
-        EditText password = (EditText) findViewById(R.id.password);
-
-        if (userName.getText().toString() != "admin" && password.getText().toString() != "admin"){
-            Toast.makeText(this,"Inalid user name and password",Toast.LENGTH_SHORT).show();
-       }
-       else {
-          Toast.makeText(this,"You have logged in successfully",Toast.LENGTH_SHORT).show();
-       }
   }
 
     public void createBtn(View view) {
@@ -46,11 +47,23 @@ public class Lab_2 extends AppCompatActivity {
                 .setPositiveButton("Confirm", (dialog, which) -> {
                     String confirmedPassword = confirmPasswordInput.getText().toString();
 
-                    // TODO: Compare with original password here
-                    // Example: if (confirmedPassword.equals(originalPassword)) { ... }
+                    // Validation
+                    if (confirmedPassword == password.getText().toString()){
+                        myDb.insertData(userName.getText().toString(),password.getText().toString());
+                        dialog.dismiss();
+                    }
+                    else {
+                        new AlertDialog.Builder(this)
+                                .setTitle("Error")
+                                .setMessage("Passwords do not match. Please try again.")
+                                .setPositiveButton("OK", (d, w) -> d.dismiss())
+                                .show();
+                    }
 
                 })
                 .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
                 .show();
     }
+
+
 }
