@@ -1,5 +1,6 @@
 package codeSolution.com.s23010597.chethaka;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
@@ -31,4 +32,25 @@ public class Lab_2 extends AppCompatActivity {
           Toast.makeText(this,"You have logged in successfully",Toast.LENGTH_SHORT).show();
        }
   }
+
+    public void createBtn(View view) {
+        // Create an EditText for password confirmation input
+        final EditText confirmPasswordInput = new EditText(this);
+        confirmPasswordInput.setHint("Confirm Password");
+
+        // Build the AlertDialog
+        new AlertDialog.Builder(this)
+                .setTitle("Confirm Password")
+                .setMessage("Please enter your password again to confirm:")
+                .setView(confirmPasswordInput)
+                .setPositiveButton("Confirm", (dialog, which) -> {
+                    String confirmedPassword = confirmPasswordInput.getText().toString();
+
+                    // TODO: Compare with original password here
+                    // Example: if (confirmedPassword.equals(originalPassword)) { ... }
+
+                })
+                .setNegativeButton("Cancel", (dialog, which) -> dialog.dismiss())
+                .show();
+    }
 }
