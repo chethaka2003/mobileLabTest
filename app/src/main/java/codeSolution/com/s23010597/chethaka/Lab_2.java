@@ -10,12 +10,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 public class Lab_2 extends AppCompatActivity {
 
+    dbHelper myDb;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.lab_2);
-
+        myDb = new dbHelper(this);
     }
 
     public void loginBtn(View view) {
